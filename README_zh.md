@@ -13,8 +13,9 @@
 
 注意此接口每天访问次数有上限，大批量操作请考虑ip代理。
 
-## 环境
+## 准备
 ```
+git clone https://github.com/1kuzus/iiiLabCrawler.git
 pip install requests
 pip install pyexecjs
 ```
@@ -30,10 +31,10 @@ res=get_resource(url,SITE=YOUTUBE)
 
 如果网络请求失败或者解码响应信息失败，`get_resource`会返回`None`并输出报错讯息，否则返回响应解码后的json。
 
-注意对于不同的网站，`get_resource`返回的内容格式不同。
+对于不同的网站，`get_resource`返回的内容格式不同。
 
 ## 示例
-下载仓库并完成环境配置后，在`iiilab.py`同目录下创建`demo.py`（此名称任意），复制入以下内容：
+下载仓库并完成环境配置后，在`iiilab.py`同目录下创建`demo.py`（此名称任意），复制入以下内容并运行：
 ```
 from iiilab import get_resource,YOUTUBE,FACEBOOK,BILIBILI
 import json
@@ -134,8 +135,9 @@ print(json.dumps(res_bili,indent=4))
     ],
     "overseas": 1
 }
+
 {
-    "text": "https://huggingface.co/spaces/FaceOnLive/Face-Recognition-SDK\nFace Recognition | By HuggingFace Community",
+    "text": "Face Recognition | By HuggingFace Community",
     "medias": [
         {
             "media_type": "video",
@@ -145,6 +147,7 @@ print(json.dumps(res_bili,indent=4))
     ],
     "overseas": 1
 }
+
 {
     "text": "I'm happy cat",
     "medias": [
