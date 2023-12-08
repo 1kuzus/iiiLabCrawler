@@ -9,7 +9,7 @@ YOUTUBE=("youtube","youtube")
 FACEBOOK=("facebook","facebook")
 BILIBILI=("bilibili","bili")
 
-def get_source(url,SITE):
+def get_resource(url,SITE):
     with open("./tool.js","r") as f:
         jscode=f.read()
     tool_js=execjs.compile(jscode)

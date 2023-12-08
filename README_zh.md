@@ -1,15 +1,15 @@
 # iiiLabCrawler
-`下载YouTube、Facebook和Bilibili视频 - 调用iiilab.com接口的爬虫`
+`下载YouTube、Facebook和Bilibili资源 - 调用iiilab.com接口的爬虫`
 
 [English](./README.md)
 
 ## 简介
-本程序是对iiilab.com/media接口的轻量级利用，不依赖`selenium`。
+本程序是对iiilab.com/media接口的轻量级利用，不依赖`selenium`。可以下载YouTube、Facebook、Bilibili等平台的资源。
 
-如果只希望解析少数视频，也可以直接用浏览器访问其网站。
-- [iiiLab YouTube](https://youtube.iiilab.com/)
-- [iiiLab Facebook](https://facebook.iiilab.com/)
-- [iiiLab Bilibili](https://bili.iiilab.com/)
+目前程序支持的站点（如果只希望解析少数视频，也可以直接用浏览器访问其网站）：
+- [youtube.iiilab.com](https://youtube.iiilab.com/)
+- [facebook.iiilab.com](https://facebook.iiilab.com/)
+- [bili.iiilab.com](https://bili.iiilab.com/)
 
 注意此接口每天访问次数有上限，大批量操作请考虑ip代理。
 
@@ -20,23 +20,33 @@ pip install pyexecjs
 ```
 
 ## 使用
+`iiilab.py`中定义了`get_resource(url,SITE)`函数和`3`个（目前为止）`SITE`常量。
+
+一个`SITE`常量是一个二元组(`tool.js中getAcceptPatch函数的hostPrefix参数`, `iiiLab.com的子域`)，这两项通常是一样的。
+
+使用时，将`url`设为要解析的资源链接，`SITE`是对应网站的常量。
+
+如果网络请求失败或者解码响应信息失败，`get_resource`会返回`None`并输出报错讯息，否则返回解码后的json。
+
+## 示例
+下载仓库并完成环境配置后，在`iiilab.py`同目录下创建`demo.py`（此名称任意），复制入以下内容：
 ```
-from iiilab import get_source,YOUTUBE,FACEBOOK,BILIBILI
+from iiilab import get_resource,YOUTUBE,FACEBOOK,BILIBILI
 import json
 
 # youtube video
 url_yt="https://www.youtube.com/watch?v=MtOXxlUE2Zg"
-src_yt=get_source(url_yt,YOUTUBE)
+src_yt=get_resource(url_yt,YOUTUBE)
 print(json.dumps(src_yt,indent=4))
 
 # facebook video
 url_fb="https://www.facebook.com/100094681485185/videos/815409647254080"
-src_fb=get_source(url_fb,FACEBOOK)
+src_fb=get_resource(url_fb,FACEBOOK)
 print(json.dumps(src_fb,indent=4))
 
 # bilibili video
 url_bili="https://www.bilibili.com/video/BV1bg4y137R6"
-src_bili=get_source(url_bili,BILIBILI)
+src_bili=get_resource(url_bili,BILIBILI)
 print(json.dumps(src_bili,indent=4))
 ```
 会得到输出：
