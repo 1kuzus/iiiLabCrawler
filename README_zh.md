@@ -1,5 +1,5 @@
 # iiiLabCrawler
-`下载YouTube、Facebook和Bilibili资源 - 调用iiilab.com接口的爬虫`
+`下载YouTube、Facebook和Bilibili资源 - 逆向iiilab.com接口的爬虫`
 
 [English](./README.md)
 
@@ -20,13 +20,17 @@ pip install pyexecjs
 ```
 
 ## 使用
-`iiilab.py`中定义了`get_resource(url,SITE)`函数和`3`个（目前为止）`SITE`常量。
+```
+from iiilab import get_resource,YOUTUBE
 
-一个`SITE`常量是一个二元组(`tool.js中getAcceptPatch函数的hostPrefix参数`, `iiiLab.com的子域`)，这两项通常是一样的。
+url="https://www.youtube.com/watch?v=..."
+res=get_resource(url,SITE=YOUTUBE)
+```
+使用时，将`url`设为要解析的资源链接；`SITE`是对应网站的常量，直接从`iiilab.py`中引入即可。
 
-使用时，将`url`设为要解析的资源链接，`SITE`是对应网站的常量。
+如果网络请求失败或者解码响应信息失败，`get_resource`会返回`None`并输出报错讯息，否则返回响应解码后的json。
 
-如果网络请求失败或者解码响应信息失败，`get_resource`会返回`None`并输出报错讯息，否则返回解码后的json。
+注意对于不同的网站，`get_resource`返回的内容格式不同。
 
 ## 示例
 下载仓库并完成环境配置后，在`iiilab.py`同目录下创建`demo.py`（此名称任意），复制入以下内容：
@@ -36,18 +40,18 @@ import json
 
 # youtube video
 url_yt="https://www.youtube.com/watch?v=MtOXxlUE2Zg"
-src_yt=get_resource(url_yt,YOUTUBE)
-print(json.dumps(src_yt,indent=4))
+res_yt=get_resource(url_yt,YOUTUBE)
+print(json.dumps(res_yt,indent=4))
 
 # facebook video
 url_fb="https://www.facebook.com/100094681485185/videos/815409647254080"
-src_fb=get_resource(url_fb,FACEBOOK)
-print(json.dumps(src_fb,indent=4))
+res_fb=get_resource(url_fb,FACEBOOK)
+print(json.dumps(res_fb,indent=4))
 
 # bilibili video
 url_bili="https://www.bilibili.com/video/BV1bg4y137R6"
-src_bili=get_resource(url_bili,BILIBILI)
-print(json.dumps(src_bili,indent=4))
+res_bili=get_resource(url_bili,BILIBILI)
+print(json.dumps(res_bili,indent=4))
 ```
 会得到输出：
 ```
