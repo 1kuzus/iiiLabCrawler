@@ -27,7 +27,7 @@ from iiilab import get_resource,YOUTUBE
 url="https://www.youtube.com/watch?v=..."
 res=get_resource(url=url,SITE=YOUTUBE)
 ```
-When using, set `url` to the resource link you want to parse, and set `SITE` to the constant for the corresponding website, which can be imported directly `from iiilab.py`.
+Set `url` to the resource link, and set `SITE` to the constant for the corresponding site, which can be imported directly from `iiilab.py`.
 
 If the network request fails or decoding the response data fails, `get_resource` will return `None` and print an error message. Otherwise, it returns the decoded JSON of the response data.
 
