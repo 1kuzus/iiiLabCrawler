@@ -6,7 +6,7 @@
 ## Introduction
 This script is a lightweight exploitation of the iiilab.com/media API without relying on `selenium`. It can download video and image resources from platforms such as YouTube, Facebook, and Bilibili.
 
-Currently supported sites (if you only want to download a single resource, you can also directly visit their websites):
+Currently supported sites (if you only want to download a single resource, you can also directly visit the websites):
 - [youtube.iiilab.com](https://youtube.iiilab.com/)
 - [facebook.iiilab.com](https://facebook.iiilab.com/)
 - [bili.iiilab.com](https://bili.iiilab.com/)
