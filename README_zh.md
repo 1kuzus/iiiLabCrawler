@@ -4,9 +4,9 @@
 [English](./README.md)
 
 ## 简介
-本程序是对iiilab.com/media接口的轻量级利用，不依赖`selenium`。可以下载YouTube、Facebook、Bilibili等平台的资源。
+本程序是对iiilab.com/media接口的轻量级利用，不依赖`selenium`。可以下载YouTube、Facebook、Bilibili等平台的视频或图片资源。
 
-目前程序支持的站点（如果只希望解析少数视频，也可以直接用浏览器访问其网站）：
+目前程序支持的站点（如果只希望下载单个资源，也可以直接用浏览器访问其网站）：
 - [youtube.iiilab.com](https://youtube.iiilab.com/)
 - [facebook.iiilab.com](https://facebook.iiilab.com/)
 - [bili.iiilab.com](https://bili.iiilab.com/)
@@ -25,13 +25,13 @@ pip install pyexecjs
 from iiilab import get_resource,YOUTUBE
 
 url="https://www.youtube.com/watch?v=..."
-res=get_resource(url,SITE=YOUTUBE)
+res=get_resource(url=url,SITE=YOUTUBE)
 ```
 使用时，将`url`设为要解析的资源链接；`SITE`是对应网站的常量，直接从`iiilab.py`中引入即可。
 
-如果网络请求失败或者解码响应信息失败，`get_resource`会返回`None`并输出报错讯息，否则返回响应解码后的json。
+如果网络请求失败或者解码响应信息失败，`get_resource`会返回`None`并输出报错讯息，否则返回响应解码后的JSON。
 
-对于不同的网站，`get_resource`返回的内容格式不同。
+对于不同的网站，`get_resource`返回的JSON内容不同。
 
 ## 示例
 下载仓库并完成环境配置后，在`iiilab.py`同目录下创建`demo.py`（此名称任意），复制入以下内容并运行：
