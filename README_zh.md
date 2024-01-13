@@ -21,7 +21,7 @@ pip install pyexecjs
 ```
 
 ## 使用
-```
+```python
 from iiilab import get_resource,YOUTUBE
 
 url="https://www.youtube.com/watch?v=..."
@@ -35,7 +35,7 @@ res=get_resource(url=url,SITE=YOUTUBE)
 
 ## 示例
 下载仓库并完成环境配置后，在`iiilab.py`同目录下创建`demo.py`（此名称任意），复制入以下内容并运行：
-```
+```python
 from iiilab import get_resource,YOUTUBE,FACEBOOK,BILIBILI
 import json
 

@@ -21,7 +21,7 @@ pip install pyexecjs
 ```
 
 ## Usage
-```
+```python
 from iiilab import get_resource,YOUTUBE
 
 url="https://www.youtube.com/watch?v=..."
@@ -35,7 +35,7 @@ For different websites, the JSON content returned by `get_resource` is not the s
 
 ## Demo
 After completing the preparation, you can create a `demo.py` in the same directory as `iiilab.py` with the following content:
-```
+```python
 from iiilab import get_resource,YOUTUBE,FACEBOOK,BILIBILI
 import json
 
