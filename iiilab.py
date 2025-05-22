@@ -1,38 +1,54 @@
 import requests
-import execjs
-import json
+import time
+from hashlib import md5
 
-# 2-tuple:
-#   ('hostPrefix' parameter of the function 'getAcceptPatch' in tool.js, subdomain of iiiLab.com)
-# In most cases they are the same.
-YOUTUBE=("youtube","youtube")
-FACEBOOK=("facebook","facebook")
-BILIBILI=("bilibili","bili")
+# (is_using_new_api, s1)
+TIKTOK = (True, "en")
+YOUTUBE = (True, "en")
+BILIBILI = (True, "zh")
+FACEBOOK = (False, "facebook")
+INSTAGRAM = (False, "instagram")
+TWITTER = (False, "twitter")
 
-def get_resource(url,SITE):
-    with open("./tool.js","r") as f:
-        jscode=f.read()
-    tool_js=execjs.compile(jscode)
-    enc_link=tool_js.eval(f"getEncLink('{url}')")
-    accept_patch=tool_js.eval(f"getAcceptPatch('{SITE[0]}','{url}')")
-    with requests.Session() as session:
-        session.get(f"https://{SITE[0]}.iiilab.com/")
-        resp=session.post(
-            url=f"https://{SITE[1]}.iiilab.com/media",
-            cookies={"lab0626":"1"},
-            json={"link":enc_link},
-            headers={"Accept-Patch":accept_patch}
-        )
+# new API:
+# s1 = "en" / "zh" / "ja" / "es" (Accept-Language)
+# key = "6HTugjCXxR"
+# url_api = "https://api.snapany.com/v1/extract"
+
+# old API:
+# s1 = "facebook" / "instagram" / ... (subdomain)
+# key = "2HT8gjE3xL"
+# url_api = "https://{s1}.iiilab.com/api/extract"
+key_new_api = "6HTugjCXxR"
+key_old_api = "2HT8gjE3xL"
+
+
+def get_resource(url, SITE):
+    is_using_new_api, s1 = SITE
+    timestamp = str(int(time.time() * 1000))
+    key = key_new_api if is_using_new_api else key_old_api
+    sign = md5((url + s1 + timestamp + key).encode()).hexdigest()
+    headers = {
+        "G-Timestamp": timestamp,
+        "G-Footer": sign,
+    }
+    data = {
+        "link": url,
+    }
+
+    if is_using_new_api:
+        url_api = "https://api.snapany.com/v1/extract"
+        headers["Accept-Language"] = s1
+    else:
+        url_api = f"https://{s1}.iiilab.com/api/extract"
+        data["site"] = s1
+
+    resp = requests.post(url_api, headers=headers, json=data)
+
     if not resp.ok:
-        print("The request was unsuccessful. Please check your network connection and try again.")
+        print(f"[*] The request was unsuccessful.")
+        print(f"[*] resp.status_code: {resp.status_code}")
+        print(f"[*] resp.text: {resp.text}")
         return None
     else:
-        try:
-            dec_data=tool_js.eval(f"getDecData('{resp.json()['data']}')")
-            dec_data=json.loads(dec_data)
-        except Exception:
-            print("An error occurred while parsing the returned data. Please check the request parameters or the response.")
-            print("response message:",resp.json()["msg"])
-            return None
-        else:
-            return dec_data
+        return resp.json()
